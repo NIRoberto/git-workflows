@@ -6,14 +6,10 @@ Build a simple blog site using Git. Each task covers one lesson. By the end you'
 
 ## Watch First
 
-- **Git and GitHub Full Course for Beginners** (freeCodeCamp, 1hr)
-  https://www.youtube.com/watch?v=RGOj5yH7evk
 
 - **Git for Professionals** (freeCodeCamp, 40min)
   https://www.youtube.com/watch?v=Uszj_k0DGsg
 
-- **A Practical Git Workflow** (Traversy Media, 20min)
-  https://www.youtube.com/watch?v=DVRQoVRzMIY
 
 ---
 
