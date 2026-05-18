@@ -10,6 +10,7 @@ Take it one lesson at a time — you've got this!
 
 | # | Topic | What You'll Learn |
 |---|-------|-------------------|
+| [Lesson 0](lesson-0.md) | Git Fundamentals & Common Commands | The foundation everything else builds on |
 | [Lesson 1](lesson-1.md) | Branches — Create, Switch, Delete | How to isolate your work safely |
 | [Lesson 2](lesson-2.md) | Merging — Fast-forward & 3-way | How to bring branches back together |
 | [Lesson 3](lesson-3.md) | Merge Conflicts — Cause & Resolve | How to handle and fix conflicts like a pro |
@@ -21,8 +22,8 @@ Take it one lesson at a time — you've got this!
 ## Learning Path
 
 ```
-Lesson 1 --> Lesson 2 --> Lesson 3 --> Lesson 4 --> Mini Project
-(Branches)   (Merging)   (Conflicts)   (Rebase)    (Put it all together)
+Lesson 0 --> Lesson 1 --> Lesson 2 --> Lesson 3 --> Lesson 4 --> Mini Project
+(Fundamentals)  (Branches)  (Merging)  (Conflicts)  (Rebase)  (Put it all together)
 ```
 
 Each lesson has:
@@ -69,7 +70,7 @@ git log --oneline --graph --all     # visualize full branch history
 
 ## How to Use This Tutorial
 
-1. Start with **Lesson 1** — don't skip ahead
+1. Start with **Lesson 0** — don't skip ahead
 2. Read the explanation, then run the commands yourself
 3. Complete the tasks before moving on
 4. Use the cheatsheet above whenever you need a reminder

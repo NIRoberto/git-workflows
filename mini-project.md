@@ -1,6 +1,8 @@
-# Mini Project: Blog Site 📝
+# Mini Project: Blog Site
 
-Apply everything from lessons 1–4 in a realistic workflow. You're building a simple blog site with multiple contributors (simulated by branches).
+You've made it to the mini project — this is where everything comes together. You're going to build a simple blog site using a realistic Git workflow, covering branches, merging, conflict resolution, and rebase all in one go.
+
+By the end of this, you'll have a clean Git history that tells the full story of how the project was built.
 
 ---
 
@@ -24,6 +26,7 @@ git init
 ```
 
 Create `index.html`:
+
 ```html
 <h1>My Blog</h1>
 <p>Welcome to my blog.</p>
@@ -35,70 +38,78 @@ git add . && git commit -m "init: add homepage"
 
 ---
 
-## Stage 1 — Feature Branches (Lesson 1 & 2)
+## Stage 1 — Feature Branches (Lessons 1 & 2)
 
 ### Task 1: About Page
+
 - [ ] Create branch `feature/about-page`
 - [ ] Add `about.html` with some content
 - [ ] Commit: `feat: add about page`
-- [ ] Merge into `main` (fast-forward)
+- [ ] Switch to `main` and merge — this should be a **fast-forward**
 - [ ] Delete the branch
 
 ### Task 2: First Blog Post
-- [ ] Make a new commit on `main` first (add a `<nav>` to `index.html`)
+
+- [ ] Make a new commit on `main` first — add a `<nav>` element to `index.html`, commit: `feat: add nav`
 - [ ] Create branch `feature/post-1`
-- [ ] Add `post-1.html` with a title and body
+- [ ] Add `post-1.html` with a title and a short body
 - [ ] Commit: `feat: add first blog post`
-- [ ] Merge into `main` — this will be a **3-way merge**
+- [ ] Switch to `main` and merge — this will be a **3-way merge**
 - [ ] Delete the branch
 
 ---
 
 ## Stage 2 — Conflict Resolution (Lesson 3)
 
-### Task 3: Style Conflict
-- [ ] On `main`, add to `index.html`: `<link rel="stylesheet" href="style.css">`
+### Task 3: Stylesheet Conflict
+
+- [ ] On `main`, add this line to `index.html`: `<link rel="stylesheet" href="style.css">`
 - [ ] Commit: `style: link stylesheet`
 - [ ] Create branch `feature/dark-mode`
-- [ ] On `feature/dark-mode`, change that same line to: `<link rel="stylesheet" href="dark.css">`
+- [ ] On `feature/dark-mode`, change that line to: `<link rel="stylesheet" href="dark.css">`
 - [ ] Commit: `feat: use dark mode stylesheet`
-- [ ] Switch to `main`, change the line to: `<link rel="stylesheet" href="main.css">`
+- [ ] Switch back to `main`, change the same line to: `<link rel="stylesheet" href="main.css">`
 - [ ] Commit: `style: rename stylesheet`
 - [ ] Merge `feature/dark-mode` into `main` — **conflict!**
-- [ ] Resolve: keep `main.css` but add a comment `<!-- dark mode ready -->`
-- [ ] Stage, commit, delete branch
+- [ ] Resolve it: keep `main.css` and add a comment `<!-- dark mode ready -->`
+- [ ] Stage, commit, and delete the branch
 
 ---
 
 ## Stage 3 — Rebase (Lesson 4)
 
 ### Task 4: Footer Feature
+
 - [ ] Create branch `feature/footer`
-- [ ] Add a `<footer>` tag to `index.html`, commit: `feat: add footer`
-- [ ] Switch to `main`, add a `<meta charset="UTF-8">` tag to `index.html`, commit: `chore: add charset meta`
+- [ ] Add a `<footer>` element to `index.html`, commit: `feat: add footer`
+- [ ] Switch to `main`, add `<meta charset="UTF-8">` to `index.html`, commit: `chore: add charset meta`
 - [ ] Switch back to `feature/footer`
-- [ ] Run `git rebase main` — replay footer commit on top of latest main
-- [ ] Switch to `main`, merge `feature/footer` — should be **fast-forward**
+- [ ] Run `git rebase main` — replay the footer commit on top of the latest `main`
+- [ ] Switch to `main` and merge `feature/footer` — should be a clean **fast-forward**
 - [ ] Delete the branch
 
 ---
 
 ## Final Check
 
+Run this to see your full history:
+
 ```bash
 git log --oneline --graph --all
 ```
 
 Your history should show:
-- A clean linear section from the rebase
-- A merge commit from the 3-way merge
-- A merge commit from the conflict resolution
+- A clean linear section from the rebase in Stage 3
+- A merge commit from the 3-way merge in Stage 1
+- A merge commit from the conflict resolution in Stage 2
+
+If it does — you nailed it.
 
 ---
 
-## ✅ Completion Checklist
+## Completion Checklist
 
-- [ ] Stage 1 done — two features merged
-- [ ] Stage 2 done — conflict triggered and resolved
-- [ ] Stage 3 done — rebase used for clean history
-- [ ] Final `git log` shows a meaningful, readable history
+- [ ] Stage 1 complete — two feature branches created and merged
+- [ ] Stage 2 complete — conflict triggered, resolved, and committed
+- [ ] Stage 3 complete — rebase used for a clean linear history
+- [ ] Final `git log --oneline --graph` shows a meaningful, readable history
