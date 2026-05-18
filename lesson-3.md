@@ -1,78 +1,147 @@
 # Lesson 3: Merge Conflicts
 
-Don't let conflicts scare you — they're completely normal, and once you know how to handle them, they're no big deal. A conflict happens when two branches edit the **same line** of the same file. Git can't decide which version to keep, so it stops and asks you to decide.
+Don't let conflicts scare you. Every developer who uses Git encounters them regularly — they're a completely normal part of collaborative work. Once you understand what they are and how to resolve them, they stop being stressful and become just another routine step.
+
+A conflict happens when two branches have made changes to the **same part of the same file**, and Git can't automatically decide which version to keep. Git is smart enough to merge changes to different files, and even different parts of the same file, automatically. But when two changes overlap, it stops and hands the decision to you. That's the right call — only you know which version is correct.
+
+---
+
+## Watch First
+
+These videos walk through real conflict scenarios step by step. Watching someone resolve a conflict before you do it yourself makes a big difference.
+
+- **Resolving Merge Conflicts in Git** (The Net Ninja, 10min)
+  https://www.youtube.com/watch?v=__cR7uPBOIk
+
+- **Git Merge Conflicts — Full Tutorial** (freeCodeCamp, 30min)
+  https://www.youtube.com/watch?v=HosPml1qkrg
+
+- **How to Resolve Git Merge Conflicts** (Traversy Media, 15min)
+  https://www.youtube.com/watch?v=xNVM5UxlFSA
+
+---
+
+## What Causes a Conflict?
+
+Conflicts happen when:
+
+1. **Two branches edit the same line(s) in the same file** — Git doesn't know which version to keep
+2. **One branch edits a file and another branch deletes it** — Git doesn't know whether to keep or remove it
+3. **Both branches add a file with the same name but different content** — Git doesn't know which one is correct
+
+The most common case by far is #1 — two people (or two branches) editing the same lines.
 
 ---
 
 ## What a Conflict Looks Like
 
-When Git hits a conflict, it marks the file like this:
+When Git hits a conflict, it pauses the merge and marks the conflicted sections directly inside the file using conflict markers:
 
 ```
 <<<<<<< HEAD
-This is the version from main
+Welcome to the homepage
 =======
-This is the version from feature/x
->>>>>>> feature/x
+Welcome to my awesome site
+>>>>>>> feature/update-home
 ```
 
-- `<<<<<<< HEAD` — your current branch's version
-- `=======` — the divider between the two versions
-- `>>>>>>> feature/x` — the incoming branch's version
+Let's break down each marker:
 
-Your job is to pick what the final content should be and remove all the markers.
+- `<<<<<<< HEAD` — everything between this line and `=======` is the version from your **current branch** (the one you're merging into)
+- `=======` — the divider separating the two conflicting versions
+- `>>>>>>> feature/update-home` — everything between `=======` and this line is the version from the **incoming branch** (the one you're merging in)
+
+Your job is to decide what the final content should look like, then remove all three markers. The file won't work correctly (and Git won't let you finish the merge) until every marker is gone.
 
 ---
 
-## How to Resolve a Conflict
+## How to Resolve a Conflict — Step by Step
 
-1. Run `git status` to see which files are conflicted
-2. Open each conflicted file
-3. Decide what the final content should be (keep one side, keep both, or rewrite entirely)
-4. Remove ALL conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
-5. Stage the resolved file: `git add <file>`
-6. Complete the merge: `git commit`
+1. **Run `git status`** — it shows you exactly which files are in conflict, marked as `both modified`
+2. **Open each conflicted file** in your editor
+3. **Find the conflict markers** — your editor may highlight them automatically
+4. **Decide on the final content** — you have three options:
+   - Keep your version (delete the incoming section and markers)
+   - Keep the incoming version (delete your section and markers)
+   - Keep both (combine them manually and remove the markers)
+   - Rewrite entirely (replace everything including markers with new content)
+5. **Remove ALL conflict markers** — `<<<<<<<`, `=======`, `>>>>>>>` must all be gone
+6. **Stage the resolved file**: `git add <file>`
+7. **Complete the merge**: `git commit`
+
+Git will pre-fill the commit message with something like `Merge branch 'feature/update-home'`. You can accept it or write your own.
 
 ---
 
 ## Commands
 
 ```bash
-git status                  # shows which files are conflicted
-git diff                    # shows conflict markers in detail
-git add <file>              # mark a conflict as resolved
-git commit                  # finalize the merge
-git merge --abort           # cancel the merge and go back to before it started
+git status                      # see which files are conflicted (marked as "both modified")
+git diff                        # see all conflict markers across all conflicted files
+git add <file>                  # mark a specific file as resolved
+git add .                       # mark all resolved files at once
+git commit                      # finalize the merge after all conflicts are resolved
+git merge --abort               # cancel the entire merge and go back to the state before it started
+git log --oneline --graph       # verify the merge commit after resolving
 ```
+
+---
+
+## Using a Merge Tool
+
+If you prefer a visual interface for resolving conflicts, Git has built-in support for merge tools:
+
+```bash
+git mergetool                   # opens your configured merge tool for each conflicted file
+```
+
+Popular options:
+- **VS Code** — set it with `git config --global merge.tool vscode` and it opens a clean 3-panel view
+- **vimdiff** — terminal-based, powerful but has a learning curve
+- **IntelliJ / WebStorm** — excellent built-in merge tool if you use JetBrains IDEs
+
+VS Code in particular is great for beginners — it shows your version, the incoming version, and the result side by side, with clickable buttons to accept one side or both.
 
 ---
 
 ## Tasks — Trigger and Resolve a Conflict
 
-- [ ] Create a repo, add `home.txt` with the line: `Welcome to my site`, commit on `main`
-- [ ] Create branch `feature/update-home`, change that line to: `Welcome to my awesome site`, commit
-- [ ] Switch back to `main`, change the same line to: `Welcome to the homepage`, commit
-- [ ] Run `git merge feature/update-home` — you'll get a conflict
+### Main Task
+
+- [ ] Create a new repo: `git init conflict-practice && cd conflict-practice`
+- [ ] Create `home.txt` with the single line: `Welcome to my site`
+- [ ] Stage and commit it on `main`: `git commit -m "init: add home page"`
+- [ ] Create branch `feature/update-home`: `git checkout -b feature/update-home`
+- [ ] Change the line in `home.txt` to: `Welcome to my awesome site`
+- [ ] Commit: `git commit -am "update: improve welcome message"`
+- [ ] Switch back to `main`: `git switch main`
+- [ ] Change the same line in `home.txt` to: `Welcome to the homepage`
+- [ ] Commit: `git commit -am "update: rename to homepage"`
+- [ ] Now merge: `git merge feature/update-home` — you'll get a conflict
+- [ ] Run `git status` — confirm `home.txt` is listed as conflicted
 - [ ] Open `home.txt` and resolve it to: `Welcome to my awesome homepage`
-- [ ] Remove all conflict markers, stage the file, and commit
-- [ ] Run `git log --oneline --graph` to confirm the merge commit
+- [ ] Remove all conflict markers, save the file
+- [ ] Stage it: `git add home.txt`
+- [ ] Commit: `git commit` (accept the default merge message)
+- [ ] Run `git log --oneline --graph` — confirm the merge commit with two parents
 
----
+### Bonus Task — Abort a Merge
 
-## Bonus Task — Abort a Merge
-
-- [ ] Trigger the same conflict again on a fresh branch
+- [ ] Create a new branch `feature/abort-test`, change the same line again, commit
+- [ ] Switch to `main`, change the same line differently, commit
+- [ ] Run `git merge feature/abort-test` — conflict again
 - [ ] This time, run `git merge --abort` instead of resolving
-- [ ] Confirm you're back to the pre-merge state with `git status`
+- [ ] Run `git status` — confirm you're back to a clean state on `main`
 
 ---
 
 ## Good to Know
 
-- **Always start with `git status`** — it tells you exactly which files need attention and what state you're in
-- **`git mergetool`** opens a visual diff editor if you prefer a GUI for resolving conflicts
-- **Conflicts are not mistakes** — they just mean two people worked on the same thing. It happens on every real team.
-- **Smaller, focused branches = fewer conflicts** — the more targeted your branch, the less likely it is to overlap with others
+- **Always run `git status` first** — it tells you exactly which files need attention, what state the merge is in, and what commands are available to you. It even prints helpful hints.
+- **You can't accidentally lose work during a conflict** — Git has paused the merge and is waiting for you. Nothing is overwritten until you stage and commit. You're in full control.
+- **Conflicts in binary files** (images, PDFs, etc.) can't be resolved with markers — Git will just tell you there's a conflict and you'll need to manually choose which version to keep using `git checkout --ours <file>` or `git checkout --theirs <file>`.
+- **Smaller, focused branches = fewer conflicts** — the more targeted your branch, the less likely it is to overlap with other work. Long-lived branches that diverge significantly from `main` are the biggest source of painful conflicts.
+- **Conflicts are not mistakes** — they're a sign that two people were working on the same area of the codebase. That's normal. The solution is communication and smaller branches, not avoiding Git.
 
 ---
 
@@ -80,8 +149,9 @@ git merge --abort           # cancel the merge and go back to before it started
 
 Before moving on, make sure you can answer these:
 
-1. What causes a merge conflict?
-2. What are the three conflict markers and what does each one mean?
-3. What does `git merge --abort` do?
+1. What exactly causes a merge conflict?
+2. What do the three conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) each represent?
+3. What are the steps to resolve a conflict and complete the merge?
+4. What does `git merge --abort` do, and when would you use it?
 
 Almost there! Head to **[Lesson 4: Rebase -->](lesson-4.md)**
