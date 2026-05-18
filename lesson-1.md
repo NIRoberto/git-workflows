@@ -18,8 +18,6 @@ These videos will help you visualize how branches work before you start using th
 - **Git Branching and Merging** (The Net Ninja, 9min)
   https://www.youtube.com/watch?v=FyAAIHHClqI
 
-- **Git Branches in 100 Seconds** (Fireship, quick visual)
-  https://www.youtube.com/watch?v=e2IbNHi4uCI
 
 ---
 
